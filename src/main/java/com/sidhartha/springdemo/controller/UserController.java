@@ -1,20 +1,22 @@
 package com.sidhartha.springdemo.controller;
+import com.sidhartha.springdemo.entity.User;
 import com.sidhartha.springdemo.service.UserService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 import java.util.List;
 
-
 @RestController
-public class HelloController {
+public class UserController {
+
     private final UserService userService;
-    //Constructor Injection
-    public HelloController(UserService userService){
+
+    public UserController(UserService userService){
         this.userService = userService;
     }
 
     @GetMapping("/users")
-    public List<String> getUsers() {
+    public List<User> getUsers(){
         return userService.getUsers();
     }
 }
