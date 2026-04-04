@@ -2,6 +2,8 @@ package com.sidhartha.springdemo.controller;
 import com.sidhartha.springdemo.entity.User;
 import com.sidhartha.springdemo.service.UserService;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -19,4 +21,9 @@ public class UserController {
     public List<User> getUsers(){
         return userService.getUsers();
     }
+    @PostMapping("/users")
+    public User addUSer(@RequestBody User user){
+        return userService.addUser(user);
+    }
+
 }
