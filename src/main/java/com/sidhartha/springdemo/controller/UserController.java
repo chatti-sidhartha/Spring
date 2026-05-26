@@ -2,10 +2,7 @@ package com.sidhartha.springdemo.controller;
 import com.sidhartha.springdemo.entity.User;
 import com.sidhartha.springdemo.service.UserService;
 import jakarta.validation.Valid;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -21,6 +18,10 @@ public class UserController {
     @GetMapping("/users")
     public List<User> getUsers(){
         return userService.getUsers();
+    }
+    @GetMapping("/users/{id}")
+    public User getUser(@PathVariable int id){
+        return userService.getUserById(id);
     }
     @PostMapping("/users")
     public User addUSer(@Valid  @RequestBody User user){

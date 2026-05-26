@@ -1,6 +1,7 @@
 package com.sidhartha.springdemo.service;
 
 import com.sidhartha.springdemo.entity.User;
+import com.sidhartha.springdemo.exception.UserNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -22,6 +23,13 @@ public class UserService {
     public User addUser(User user){
         Users.add(user);
         return user;
+    }
+    public User getUserById(int id){
+
+        return Users.stream()
+                .filter(user -> user.getId() == id)
+                .findFirst()
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
     }
 
 }
