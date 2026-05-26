@@ -1,34 +1,31 @@
-package com.sidhartha.springdemo.entity;
-import jakarta.validation.constraints.*;
-public class User {
-    private int id;
-    @NotBlank @Size(max = 10)
+package com.sidhartha.springdemo.dto;
+
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+
+public class CreateUserRequest {
+    @NotBlank
     private String name;
     @Email @NotBlank
     private String email;
     @NotBlank
     private String password;
-
-    public User(int id, String name, String email,String password) {
-        this.id = id;
+    public CreateUserRequest(String name,String email, String password){
         this.name = name;
         this.email = email;
         this.password = password;
     }
-    public int getId() {
-        return id;
-    }
+    public CreateUserRequest(){
 
+    }
     public String getName() {
         return name;
     }
-
     public String getEmail() {
         return email;
     }
-    public String getPassword(){
+
+    public String getPassword() {
         return password;
     }
-
 }
-
