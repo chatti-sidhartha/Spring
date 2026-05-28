@@ -3,46 +3,48 @@ package com.sidhartha.springdemo.service;
 import com.sidhartha.springdemo.dto.UserResponse;
 import com.sidhartha.springdemo.entity.User;
 import com.sidhartha.springdemo.exception.UserNotFoundException;
+import com.sidhartha.springdemo.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
+
 import com.sidhartha.springdemo.dto.CreateUserRequest;
 
 @Service
 public class UserService {
-    private List<User> Users = new ArrayList<>();
-    public UserService() {
-        Users.add(new User(1, "Sidhartha", "scs169273@gmail.com","123456"));
-    }
-    public List<UserResponse> getUsers(){
-        List<UserResponse> responseList = new ArrayList<>();
-        for(User user:Users){
-            responseList.add(
-                    new UserResponse(
-                            user.getId(),
-                            user.getName(),
-                            user.getEmail()
-                    )
-            );
-        }
-        return responseList;
-    }
+    private final UserRepository userRepository;
 
+    public UserService(UserRepository userRepository) {
+        this.userRepository =userRepository;
+    }
+    public List<UserResponse> getAllUsers(){
+        List<User> users= userRepository.findAll();
+        return users.stream()
+                .map(user -> new UserResponse(
+                        user.getId(),
+                        user.getName(),
+                        user.getEmail()
+                ))
+                .collect(Collectors.toList());
+    }
     public UserResponse addUser(CreateUserRequest request){
-        int id = Users.size()+1;
-        User user = new User(id, request.getName(), request.getEmail(),request.getPassword());
-        Users.add(user);
-        return new UserResponse(user.getId(), user.getName(), user.getEmail());
+        User user = new User(
+                request.getName(),
+                request.getEmail(),
+                request.getPassword()
+        );
+        User savedUser = userRepository.save(user);
+        return new UserResponse(
+                savedUser.getId(),
+                savedUser.getName(),
+                savedUser.getEmail()
+        );
     }
-    public UserResponse getUserById(int id){
 
-        User user =  Users.stream()
-                .filter(u -> u.getId() == id)
-                .findFirst()
-                .orElseThrow(() -> new UserNotFoundException("User not found"));
-        return new UserResponse(user.getId(), user.getName(), user.getEmail());
-    }
+
+
 
 }

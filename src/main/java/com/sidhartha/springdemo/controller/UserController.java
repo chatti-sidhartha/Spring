@@ -19,12 +19,9 @@ public class UserController {
 
     @GetMapping("/users")
     public List<UserResponse> getUsers(){
-        return userService.getUsers();
+        return userService.getAllUsers();
     }
-    @GetMapping("/users/{id}")
-    public UserResponse getUser(@PathVariable int id){
-        return userService.getUserById(id);
-    }
+
     @PostMapping("/users")
     public UserResponse addUser(@Valid  @RequestBody CreateUserRequest request){
         return userService.addUser(request);
